@@ -14,4 +14,6 @@ RUN python -m grpc_tools.protoc \
 
 COPY server/main.py .
 
+ENV PYTHONUNBUFFERED=1
+
 CMD ["python", "main.py"]
