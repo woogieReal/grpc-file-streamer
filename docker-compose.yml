@@ -1,0 +1,26 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    ports:
+      - "50051:50051"
+    volumes:
+      - ./shared/output:/shared/output
+    networks:
+      - grpc-net
+
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    volumes:
+      - ./shared/input:/shared/input:ro
+    networks:
+      - grpc-net
+    depends_on:
+      - server
+
+networks:
+  grpc-net:
+    driver: bridge

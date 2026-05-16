@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package file_streamer;
+
+service FileStreamer {
+  rpc Upload(stream UploadRequest) returns (stream UploadResponse);
+}
+
+message UploadRequest {
+  oneof data {
+    FileMetadata metadata = 1;
+    bytes chunk = 2;
+  }
+}
+
+message FileMetadata {
+  string file_name = 1;
+  int64 total_size = 2;
+  string original_hash = 3;
+}
+
+message UploadResponse {
+  oneof response {
+    int32 progress = 1;
+    VerificationResult result = 2;
+  }
+}
+
+message VerificationResult {
+  bool success = 1;
+  string message = 2;
+}
